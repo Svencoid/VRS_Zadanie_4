@@ -23,6 +23,7 @@
 #include "dma.h"
 #include "usart.h"
 #include "gpio.h"
+#include "stdio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -47,10 +48,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-  uint8_t tx_data[] = "Data to send over UART DMA!\n\r";
-  uint8_t rx_data[10];
-  uint8_t count = 0;
-
+volatile uint32_t msTicks = 0;
+uint32_t lastStatusSend = 0;
+char statusMsg[48];
+uint8_t count = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -111,14 +112,23 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-#if POLLING
-	//Polling for new data, no interrupts
-	USART2_CheckDmaReception();
-	LL_mDelay(10);
-#else
-	USART2_PutBuffer(tx_data, sizeof(tx_data));
-	LL_mDelay(1000);
-#endif
+
+  #if POLLING
+    USART2_CheckDmaReception();
+  #endif
+
+    if ((msTicks - lastStatusSend) >= 2000U)   /* každé 2 sekundy */
+    {
+        uint16_t used = USART2_GetRxBufferUsage();
+        uint16_t percent = (used * 100U) / DMA_USART2_BUFFER_SIZE;
+
+        int len = snprintf(statusMsg, sizeof(statusMsg),
+                            "RX buffer: %u/%u B (%u%%)\r\n",
+                            used, (unsigned)DMA_USART2_BUFFER_SIZE, percent);
+
+        USART2_PutBuffer((uint8_t*)statusMsg, (uint8_t)len);
+        lastStatusSend = msTicks;
+    }
 
     /* USER CODE BEGIN 3 */
   }

@@ -59,7 +59,7 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-
+extern volatile uint32_t msTicks;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -186,8 +186,8 @@ void SysTick_Handler(void)
 
   /* USER CODE END SysTick_IRQn 0 */
   
-  /* USER CODE BEGIN SysTick_IRQn 1 */
-
+  /* USER CODE BEGIN  SysTick_IRQn 1 */
+	msTicks++;
   /* USER CODE END SysTick_IRQn 1 */
 }
 
