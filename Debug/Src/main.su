@@ -12,7 +12,7 @@
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_system.h:1634:22:LL_FLASH_SetLatency	16	static
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_system.h:1647:26:LL_FLASH_GetLatency	4	static
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_cortex.h:260:22:LL_SYSTICK_SetClkSource	16	static
-../Src/main.c:72:5:main	24	static
-../Src/main.c:142:6:SystemClock_Config	8	static
-../Src/main.c:174:6:receive_dma_data	24	static
-../Src/main.c:191:6:Error_Handler	4	static
+../Src/main.c:54:5:main	72	static
+../Src/main.c:112:6:SystemClock_Config	8	static
+../Src/main.c:152:6:proccesDmaData	72	static
+../Src/main.c:201:6:Error_Handler	4	static
