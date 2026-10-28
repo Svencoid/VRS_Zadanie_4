@@ -57,7 +57,7 @@ void MX_USART2_UART_Init(void)
 
   /* USART2 DMA Init */
 
-  /* USART2_RX Init - NORMAL */
+  /* USART2_RX Init  */
   LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_CHANNEL_6, LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
   LL_DMA_SetChannelPriorityLevel(DMA1, LL_DMA_CHANNEL_6, LL_DMA_PRIORITY_MEDIUM);
   LL_DMA_SetMode(DMA1, LL_DMA_CHANNEL_6, LL_DMA_MODE_NORMAL);
@@ -106,6 +106,7 @@ void MX_USART2_UART_Init(void)
   USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
   LL_USART_Init(USART2, &USART_InitStruct);
   LL_USART_DisableIT_CTS(USART2);
+
 #if !POLLING
   LL_USART_EnableIT_IDLE(USART2);
 #endif
@@ -139,13 +140,13 @@ void USART2_CheckDmaReception(void)
 
 	if (pos != rx_old_pos)
 	{
-		/* NORMAL mód - dáta pribúdajú len "dopredu", žiadny wrap-around */
+		/* NORMAL mód - dáta len pribúdajú */
 		USART2_ProcessData(&bufferUSART2dma[rx_old_pos], pos - rx_old_pos);
 		rx_old_pos = pos;
 	}
 
-	/* Buffer je plný (DMA sa v NORMAL móde samo zastavilo) - reštartuj ho,
-	 * aby sme zabránili strate ďalej prichádzajúcich dát (pretečenie). */
+	/* Buffer je plný = reštartuj ho,
+	 * aby sme zabránili pretečeniu. */
 	if (LL_DMA_GetDataLength(DMA1, LL_DMA_CHANNEL_6) == 0)
 	{
 		USART2_RestartDmaRx();

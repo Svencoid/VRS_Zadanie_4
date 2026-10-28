@@ -143,12 +143,7 @@ static uint8_t  frame_char_count = 0;
 static uint16_t lower_count = 0;
 static uint16_t upper_count = 0;
 
-/**
- * @brief Spracuje prijaté dáta z USART2 DMA. Hľadá rámce ohraničené
- *        znakmi '#' (štart) a '$' (koniec), vyhodnotí počet malých
- *        a veľkých písmen vnútri rámca a výsledok odošle späť cez USART2.
- *        Ak sa do FRAME_MAX_LEN znakov po '#' neobjaví '$', rámec sa zahodí.
- */
+
 void proccesDmaData(const uint8_t* data, uint16_t len)
 {
 	for (uint16_t i = 0; i < len; i++)
